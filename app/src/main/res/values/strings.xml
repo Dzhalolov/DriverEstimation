@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">DriverEstimation</string>
+    <string name="personal_area_title">Personal Area</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="save_changes">Save changes</string>
+    <string name="change_password">Change password</string>
+    <string name="your_current_password">Your current password</string>
+    <string name="new_password">New password</string>
+    <string name="new_password_again">New password again</string>
+    <string name="submit">Submit</string>
+</resources>
