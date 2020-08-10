@@ -20,6 +20,7 @@ class PersonalAreaActivity : AppCompatActivity() {
                 fragmentManager.popBackStack()
             }
         }
+
         if(savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, ProfileFragment.newInstance())

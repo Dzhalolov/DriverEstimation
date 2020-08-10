@@ -3,13 +3,12 @@ package ru.example.driverestimation
 import android.graphics.*
 import com.squareup.picasso.Transformation
 
-class CircleTransform(private val radius: Int) : Transformation {
+class CircleTransform : Transformation {
     private var x: Int = 0
     private var y: Int = 0
 
     override fun transform(source: Bitmap): Bitmap {
-        val size = radius * 2
-
+        val size = Math.min(source.width, source.height)
         x = (source.width - size) / 2
         y = (source.height - size) / 2
 

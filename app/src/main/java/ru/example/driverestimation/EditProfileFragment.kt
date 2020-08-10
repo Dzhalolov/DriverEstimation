@@ -1,6 +1,8 @@
 package ru.example.driverestimation
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -14,12 +16,14 @@ import android.widget.*
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fr_edit_profile.view.*
 
 
 class EditProfileFragment : Fragment() {
     private var etName: EditText? = null
     private var etCar: AutoCompleteTextView? = null
     private var ivPhoto: AppCompatImageView? = null
+    private var tvChangePhoto: TextView? = null
     private var btnSave: Button? = null
     private var user: User? = null
     private var sharedPreferencesHelper: SharedPreferencesHelper? = null
@@ -42,10 +46,11 @@ class EditProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fr_edit_profile, container, false)
-        ivPhoto = view.findViewById(R.id.iv_profile_photo)
-        etName = view.findViewById(R.id.et_profile_name)
-        etCar = view.findViewById(R.id.et_profile_car)
-        btnSave = view.findViewById(R.id.btn_save_profile_changes)
+        ivPhoto = view.iv_profile_photo
+        tvChangePhoto = view.tv_change_photo
+        etName = view.et_profile_name
+        etCar = view.et_profile_car
+        btnSave = view.btn_save_profile_changes
         return view
     }
 
@@ -53,15 +58,34 @@ class EditProfileFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         sharedPreferencesHelper = SharedPreferencesHelper(activity!!)
         user = sharedPreferencesHelper!!.getUser(ProfileFragment.USER_ID)
+
         etName!!.setText(user!!.name)
-        etCar!!.setText( user!!.car)
+        etCar!!.setText(user!!.car)
         Picasso.with(activity)
             .load(Uri.parse(user!!.uri))
             .placeholder(R.mipmap.ic_profile_photo)
-            .transform(CircleTransform(150))
+            .transform(CircleTransform())
+            .fit()
             .into(ivPhoto)
-        ivPhoto!!.setOnClickListener { selectPhotoFromGallery() }
-        btnSave!!.setOnClickListener(OnBtnSaveClickListener())
+
+        ivPhoto!!.setOnClickListener {
+            var builder = AlertDialog.Builder(activity!!)
+                .setTitle("What do you want to do?")
+                .setPositiveButton("Change photo") { _: DialogInterface, _: Int
+                    ->
+                    selectPhotoFromGallery()
+                }
+                .setNegativeButton("Delete photo") { _: DialogInterface, _: Int
+                    ->
+                    deletePhoto()
+                }
+            builder.show()
+        }
+        tvChangePhoto!!.setOnClickListener {
+            selectPhotoFromGallery()
+        }
+        btnSave!!.setOnClickListener(onBtnSaveClickListener())
+
         etCar!!.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
                 etCar!!.showDropDown()
@@ -75,6 +99,16 @@ class EditProfileFragment : Fragment() {
         etCar!!.setAdapter<ArrayAdapter<String>>(availableCarsAdapter)
     }
 
+    private fun deletePhoto() {
+        user!!.uri = ""
+        Picasso.with(activity)
+            .load(Uri.parse(user!!.uri))
+            .placeholder(R.mipmap.ic_profile_photo)
+            .fit()
+            .into(ivPhoto)
+
+    }
+
     private fun selectPhotoFromGallery() {
         val openGallery = Intent()
         openGallery.type = "image/*"
@@ -82,7 +116,7 @@ class EditProfileFragment : Fragment() {
         startActivityForResult(openGallery, CODE_GET_PHOTO)
     }
 
-    private fun OnBtnSaveClickListener(): View.OnClickListener {
+    private fun onBtnSaveClickListener(): View.OnClickListener {
         return View.OnClickListener {
             if (isValidInput) {
                 user!!.name = etName!!.text.toString()
@@ -90,11 +124,8 @@ class EditProfileFragment : Fragment() {
                 Log.d(TAG, "onClick: " + user.toString())
                 sharedPreferencesHelper!!.addUser(user!!)
                 fragmentManager!!.popBackStack()
-            } else Toast.makeText(
-                activity,
-                "Error!!!\nFields are empty!",
-                Toast.LENGTH_SHORT
-            ).show()
+            } else
+                Toast.makeText(activity, "Error!!!\nFields are empty!", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -109,7 +140,8 @@ class EditProfileFragment : Fragment() {
             Picasso.with(activity)
                 .load(uri)
                 .placeholder(R.mipmap.ic_profile_photo)
-                .transform(CircleTransform(150))
+                .transform(CircleTransform())
+                .fit()
                 .into(ivPhoto)
             user!!.uri = uri.toString()
         } else {

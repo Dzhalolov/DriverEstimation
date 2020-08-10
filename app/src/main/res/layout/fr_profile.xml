@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -14,88 +15,54 @@
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="casual"
-            android:textStyle="bold"
             android:text="@string/personal_area_title"
-            android:textColor="@android:color/black"
-            android:textSize="30sp" />
+            style="@style/tv_title_style" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/iv_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_margin="8dp"
             android:background="@mipmap/ic_profile_photo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="name" />
+            android:text="@string/name" />
 
         <EditText
             android:id="@+id/et_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:fontFamily="casual"
-            android:text="Daniel"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            style="@style/et_profile_style"
+            tools:text="Daniel" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="email" />
+            android:text="@string/email" />
 
         <EditText
             android:id="@+id/et_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:fontFamily="casual"
-            android:text="danil.dobrodeev@mail.ru"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            style="@style/et_profile_style"
+            tools:text="danil.dobrodeev@mail.ru" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="car" />
+            android:text="@string/car" />
 
         <EditText
             android:id="@+id/et_car"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:fontFamily="casual"
-            android:text="LADA Vesta"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            style="@style/et_profile_style"
+            tools:text="LADA Vesta" />
 
         <Button
             android:id="@+id/btn_edit_profile"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:background="@drawable/custom_button"
-            android:text="@string/edit_profile"
-            android:textAllCaps="false"
-            android:textSize="20sp" />
+            style="@style/button_style"
+            android:text="@string/edit_profile" />
 
         <Button
             android:id="@+id/btn_change_password"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:background="@drawable/custom_button"
-            android:text="@string/change_password"
-            android:textAllCaps="false"
-            android:textSize="20sp" />
+            style="@style/button_style"
+            android:text="@string/change_password" />
     </LinearLayout>
 </LinearLayout>

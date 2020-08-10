@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.squareup.picasso.Picasso
 
 
@@ -54,7 +55,15 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        user = sharedPreferencesHelper!!.getUser(USER_ID)
+        if (sharedPreferencesHelper!!.getUser(USER_ID) != null)
+            user = sharedPreferencesHelper!!.getUser(USER_ID)
+        else {
+            user = User(
+                USER_ID, "danil.danil@mail.ru", "Danil", "123",
+                "LADA Priora", ""
+            )
+            sharedPreferencesHelper!!.addUser(user!!)
+        }
         for (u in sharedPreferencesHelper!!.users) {
             Log.d(TAG, "user: " + user.toString())
         }
@@ -64,7 +73,8 @@ class ProfileFragment : Fragment() {
         Picasso.with(activity)
             .load(Uri.parse(user!!.uri))
             .placeholder(R.mipmap.ic_profile_photo)
-            .transform(CircleTransform(150))
+            .transform(CircleTransform())
+            .fit()
             .into(ivPhoto)
     }
 
@@ -72,6 +82,8 @@ class ProfileFragment : Fragment() {
         return View.OnClickListener {
             if (fragmentManager != null) {
                 fragmentManager!!.beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                     .replace(R.id.container, EditProfileFragment.newInstance())
                     .addToBackStack(EditProfileFragment::class.java.name)
                     .commit()
@@ -83,6 +95,8 @@ class ProfileFragment : Fragment() {
         return View.OnClickListener {
             if (fragmentManager != null) {
                 fragmentManager!!.beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                    .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                     .replace(R.id.container, ChangePasswordFragment.newInstance())
                     .addToBackStack(ChangePasswordFragment::class.java.name)
                     .commit()

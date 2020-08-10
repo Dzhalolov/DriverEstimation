@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
@@ -15,77 +15,50 @@
         android:padding="8dp">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="casual"
-            android:textStyle="bold"
             android:text="@string/edit_profile"
-            android:textColor="@android:color/black"
-            android:textSize="30sp" />
+            style="@style/tv_title_style" />
 
-        <RelativeLayout
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_profile_photo"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:background="@mipmap/ic_profile_photo" />
+
+        <TextView
+            android:id="@+id/tv_change_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp">
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_profile_photo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@mipmap/ic_profile_photo" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_edit"
-                android:layout_alignEnd="@id/iv_profile_photo"
-                android:layout_alignBottom="@id/iv_profile_photo"/>
-        </RelativeLayout>
-
+            android:layout_margin="5dp"
+            android:text="@string/change_photo"
+            android:textColor="@color/link_blue"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="name" />
+            android:text="@string/name" />
 
         <EditText
             android:id="@+id/et_profile_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="true"
-            android:fontFamily="casual"
-            android:text="Daniel"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            style="@style/et_edit_profile_style"
+            tools:text="Daniel" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="car" />
+            android:text="@string/car" />
 
         <AutoCompleteTextView
             android:id="@+id/et_profile_car"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="true"
-            android:fontFamily="casual"
-            android:text="LADA Vesta"
-            android:textColor="@android:color/black"
-            android:textSize="20sp" />
+            style="@style/et_edit_profile_style"
+            tools:ignore="LabelFor"
+            tools:text="LADA Vesta" />
 
         <Button
             android:id="@+id/btn_save_profile_changes"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
-            android:background="@drawable/custom_button"
             android:text="@string/save_changes"
-            android:textAllCaps="false"
-            android:textSize="20sp" />
+            style="@style/button_style" />
     </LinearLayout>
 
 </LinearLayout>
