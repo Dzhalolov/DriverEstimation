@@ -30,14 +30,20 @@ dependencies {
     implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-
-    implementation 'com.google.code.gson:gson:2.8.5'
-    implementation 'com.squareup.picasso:picasso:2.5.2'
-
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    //gson
+    def android_gson_version = "2.8.5"
+    implementation "com.google.code.gson:gson:$android_gson_version"
 
+    //picasso
+    def android_picasso_version = "2.5.2"
+    implementation "com.squareup.picasso:picasso:$android_picasso_version"
+
+    //Image cropper
+    def android_image_cropper_version = "2.8.+"
+    api "com.theartofdev.edmodo:android-image-cropper:$android_image_cropper_version"
 
 }

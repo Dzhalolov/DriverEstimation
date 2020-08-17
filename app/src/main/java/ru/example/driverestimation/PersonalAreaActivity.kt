@@ -1,8 +1,8 @@
 package ru.example.driverestimation
 
 import android.os.Bundle
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.ac_personal_area.*
 
 class PersonalAreaActivity : AppCompatActivity() {
 
@@ -10,8 +10,7 @@ class PersonalAreaActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ac_personal_area)
 
-        val ivBack = findViewById<ImageView>(R.id.iv_back)
-        ivBack.setOnClickListener {
+        iv_back.setOnClickListener {
             val fragmentManager =
                 supportFragmentManager
             if (fragmentManager.backStackEntryCount == 1) {

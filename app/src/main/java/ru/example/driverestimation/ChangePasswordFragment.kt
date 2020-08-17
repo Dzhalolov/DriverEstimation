@@ -6,16 +6,12 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.fr_change_password.*
+import kotlinx.android.synthetic.main.fr_profile.*
 
 class ChangePasswordFragment : Fragment() {
-    private var etCurrPassword: EditText? = null
-    private var etNewPassword: EditText? = null
-    private var etNewPasswordAgain: EditText? = null
-    private var btnSubmitChange: Button? = null
     private var sharedPreferencesHelper: SharedPreferencesHelper? = null
     private var user: User? = null
 
@@ -33,21 +29,16 @@ class ChangePasswordFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fr_change_password, container, false)
-        etCurrPassword = view.findViewById(R.id.et_curr_password)
-        etNewPassword = view.findViewById(R.id.et_new_password)
-        etNewPasswordAgain = view.findViewById(R.id.et_new_password_again)
-        btnSubmitChange = view.findViewById(R.id.btn_submit_password_change)
-        return view
+        return inflater.inflate(R.layout.fr_change_password, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         sharedPreferencesHelper = SharedPreferencesHelper(activity!!)
         user = sharedPreferencesHelper!!.getUser(ProfileFragment.USER_ID)
-        btnSubmitChange!!.setOnClickListener {
+        btn_change_password.setOnClickListener {
             if (isValidPassword) {
-                user!!.password = etNewPassword!!.text.toString()
+                user!!.password = et_new_password.text.toString()
                 sharedPreferencesHelper!!.addUser(user!!)
                 fragmentManager!!.popBackStack()
             }
@@ -57,9 +48,9 @@ class ChangePasswordFragment : Fragment() {
     @get:SuppressLint("ResourceAsColor")
     private val isValidPassword: Boolean
         private get() {
-            val currPass = etCurrPassword!!.text.toString()
-            val newPass = etNewPassword!!.text.toString()
-            val newPassAgain = etNewPasswordAgain!!.text.toString()
+            val currPass = et_curr_password.text.toString()
+            val newPass = et_new_password.text.toString()
+            val newPassAgain = et_new_password_again.text.toString()
             return if (TextUtils.isEmpty(currPass) || TextUtils.isEmpty(newPass) || TextUtils.isEmpty(
                     newPassAgain
                 )
@@ -67,7 +58,7 @@ class ChangePasswordFragment : Fragment() {
                 Toast.makeText(activity, "Please, fill all fields", Toast.LENGTH_SHORT).show()
                 false
             } else if (currPass != user!!.password) {
-                etCurrPassword!!.setBackgroundColor(R.color.color_error_bg)
+                et_curr_password.setBackgroundColor(R.color.color_error_bg)
                 Toast.makeText(activity, "Wrong current password!", Toast.LENGTH_SHORT).show()
                 false
             } else if (currPass == newPass) {
@@ -82,7 +73,7 @@ class ChangePasswordFragment : Fragment() {
                     return true
                 }
                 Toast.makeText(activity, "Please, confirm your address", Toast.LENGTH_SHORT).show()
-                etNewPasswordAgain!!.setBackgroundColor(R.color.color_error_bg)
+                et_new_password.setBackgroundColor(R.color.color_error_bg)
                 false
             }
         }
