@@ -8,7 +8,6 @@ class User(
     var car: String,
     var uri: String
 ) {
-
     override fun toString(): String {
         return "User{" +
                 "id=" + id +
