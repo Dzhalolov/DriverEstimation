@@ -8,44 +8,39 @@
 
     <TextView
         style="@style/tv_title_style"
-        android:text="Authentication" />
+        android:text="@string/authentication" />
 
     <EditText
         android:id="@+id/et_email"
         style="@style/et_change_password_style"
-        android:hint="Enter your email or phone number"
+        android:hint="@string/enter_your_email_or_phone_number"
         android:text=""
         tools:ignore="TextFields" />
 
     <EditText
         android:id="@+id/et_password"
         style="@style/et_change_password_style"
-        android:hint="Your password"
+        android:hint="@string/your_password"
         android:text="" />
 
     <TextView
         android:id="@+id/tv_forgot_password"
         style="@style/tv_link"
         android:layout_marginTop="10dp"
-        android:text="Forgot your password?" />
+        android:text="@string/forgot_your_password" />
 
     <Button
         android:id="@+id/btn_sign_in"
         style="@style/button_style"
-        android:text="Sign in" />
+        android:text="@string/sign_in" />
 
     <Button
         android:id="@+id/btn_sign_up"
         style="@style/button_style"
-        android:text="Sign up" />
+        android:text="@string/sign_up" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:fontFamily="casual"
-        android:text="Being first here? Sign up!"
-        android:textColor="@android:color/black"
-        android:textSize="20sp" />
+        style="@style/tv_other_text"
+        android:text="@string/being_first_here_sign_up" />
 
 </LinearLayout>
