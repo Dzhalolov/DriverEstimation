@@ -26,13 +26,8 @@
 
         <TextView
             android:id="@+id/tv_change_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
             android:text="@string/change_photo"
-            android:textColor="@color/link_blue"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            style="@style/tv_link" />
 
         <TextView
             android:layout_width="wrap_content"

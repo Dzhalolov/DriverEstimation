@@ -2,6 +2,36 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:gravity="center"
     android:orientation="vertical">
+
+    <TextView
+        style="@style/tv_title_style"
+        android:text="Registration" />
+
+    <EditText
+        android:id="@+id/et_email"
+        style="@style/et_change_password_style"
+        android:hint="Enter your email or phone number"
+        android:text=""
+        tools:ignore="TextFields" />
+
+    <EditText
+        android:id="@+id/et_registration_password"
+        style="@style/et_change_password_style"
+        android:hint="Your password"
+        android:text="" />
+
+    <EditText
+        android:id="@+id/et_registration_password_again"
+        style="@style/et_change_password_style"
+        android:hint="Your password again"
+        android:text="" />
+
+    <Button
+        android:id="@+id/btn_registration_submit"
+        style="@style/button_style"
+        android:text="Submit" />
 
 </LinearLayout>
