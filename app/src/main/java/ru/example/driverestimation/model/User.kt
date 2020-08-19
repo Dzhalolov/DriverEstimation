@@ -1,4 +1,4 @@
-package ru.example.driverestimation
+package ru.example.driverestimation.model
 
 class User(
     var id: Long,

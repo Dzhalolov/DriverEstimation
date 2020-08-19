@@ -1,4 +1,4 @@
-package ru.example.driverestimation
+package ru.example.driverestimation.ui.personalArea
 
 import android.net.Uri
 import android.os.Bundle
@@ -10,6 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fr_profile.*
+import ru.example.driverestimation.R
+import ru.example.driverestimation.model.User
+import ru.example.driverestimation.utils.CircleTransform
+import ru.example.driverestimation.utils.SharedPreferencesHelper
 
 
 class ProfileFragment : Fragment() {
@@ -22,7 +26,8 @@ class ProfileFragment : Fragment() {
         const val USER_ID: Long = 20202020
         fun newInstance(): ProfileFragment {
             val args = Bundle()
-            val fragment = ProfileFragment()
+            val fragment =
+                ProfileFragment()
             fragment.arguments = args
             return fragment
         }
@@ -38,7 +43,8 @@ class ProfileFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        sharedPreferencesHelper = SharedPreferencesHelper(activity!!)
+        sharedPreferencesHelper =
+            SharedPreferencesHelper(activity!!)
 
         btn_edit_profile.setOnClickListener(switchToEditProfileFragment())
         btn_change_password.setOnClickListener(switchToChangePasswordFragment())
@@ -75,7 +81,10 @@ class ProfileFragment : Fragment() {
                 fragmentManager!!.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                    .replace(R.id.container, EditProfileFragment.newInstance())
+                    .replace(
+                        R.id.container,
+                        EditProfileFragment.newInstance()
+                    )
                     .addToBackStack(EditProfileFragment::class.java.name)
                     .commit()
             }
@@ -88,7 +97,10 @@ class ProfileFragment : Fragment() {
                 fragmentManager!!.beginTransaction()
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
-                    .replace(R.id.container, ChangePasswordFragment.newInstance())
+                    .replace(
+                        R.id.container,
+                        ChangePasswordFragment.newInstance()
+                    )
                     .addToBackStack(ChangePasswordFragment::class.java.name)
                     .commit()
             }

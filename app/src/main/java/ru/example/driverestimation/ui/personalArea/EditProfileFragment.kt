@@ -1,4 +1,4 @@
-package ru.example.driverestimation
+package ru.example.driverestimation.ui.personalArea
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -20,6 +20,10 @@ import com.squareup.picasso.Picasso
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImageView
 import kotlinx.android.synthetic.main.fr_edit_profile.*
+import ru.example.driverestimation.R
+import ru.example.driverestimation.model.User
+import ru.example.driverestimation.utils.CircleTransform
+import ru.example.driverestimation.utils.SharedPreferencesHelper
 
 class EditProfileFragment : Fragment() {
 
@@ -32,7 +36,8 @@ class EditProfileFragment : Fragment() {
     companion object {
         fun newInstance(): EditProfileFragment {
             val args = Bundle()
-            val fragment = EditProfileFragment()
+            val fragment =
+                EditProfileFragment()
             fragment.arguments = args
             return fragment
         }
@@ -48,7 +53,8 @@ class EditProfileFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        sharedPreferencesHelper = SharedPreferencesHelper(activity!!)
+        sharedPreferencesHelper =
+            SharedPreferencesHelper(activity!!)
         user = sharedPreferencesHelper!!.getUser(ProfileFragment.USER_ID)
 
         et_profile_name.setText(user!!.name)

@@ -1,4 +1,4 @@
-package ru.example.driverestimation
+package ru.example.driverestimation.utils
 
 import android.graphics.*
 import com.squareup.picasso.Transformation

@@ -1,4 +1,4 @@
-package ru.example.driverestimation
+package ru.example.driverestimation.ui.personalArea
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,6 +10,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fr_change_password.*
 import kotlinx.android.synthetic.main.fr_profile.*
+import ru.example.driverestimation.R
+import ru.example.driverestimation.model.User
+import ru.example.driverestimation.utils.SharedPreferencesHelper
 
 class ChangePasswordFragment : Fragment() {
     private var sharedPreferencesHelper: SharedPreferencesHelper? = null
@@ -18,7 +21,8 @@ class ChangePasswordFragment : Fragment() {
     companion object {
         fun newInstance(): ChangePasswordFragment {
             val args = Bundle()
-            val fragment = ChangePasswordFragment()
+            val fragment =
+                ChangePasswordFragment()
             fragment.arguments = args
             return fragment
         }
@@ -34,7 +38,8 @@ class ChangePasswordFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        sharedPreferencesHelper = SharedPreferencesHelper(activity!!)
+        sharedPreferencesHelper =
+            SharedPreferencesHelper(activity!!)
         user = sharedPreferencesHelper!!.getUser(ProfileFragment.USER_ID)
         btn_change_password.setOnClickListener {
             if (isValidPassword) {

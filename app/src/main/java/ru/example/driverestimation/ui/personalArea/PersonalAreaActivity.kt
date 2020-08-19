@@ -1,8 +1,9 @@
-package ru.example.driverestimation
+package ru.example.driverestimation.ui.personalArea
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.ac_personal_area.*
+import ru.example.driverestimation.R
 
 class PersonalAreaActivity : AppCompatActivity() {
 
@@ -22,7 +23,10 @@ class PersonalAreaActivity : AppCompatActivity() {
 
         if(savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.container, ProfileFragment.newInstance())
+                .replace(
+                    R.id.container,
+                    ProfileFragment.newInstance()
+                )
                 .addToBackStack(ProfileFragment::class.java.name)
                 .commit()
         }

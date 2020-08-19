@@ -1,9 +1,10 @@
-package ru.example.driverestimation
+package ru.example.driverestimation.utils
 
 import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import ru.example.driverestimation.model.User
 import java.util.*
 
 class SharedPreferencesHelper(context: Context) {
@@ -15,7 +16,8 @@ class SharedPreferencesHelper(context: Context) {
                 mSharedPreferences.getString(
                     USERS_KEY,
                     ""
-                ), USERS_TYPE
+                ),
+                USERS_TYPE
             )
             return users as MutableList<User>? ?: ArrayList<User>()
         }
@@ -31,7 +33,10 @@ class SharedPreferencesHelper(context: Context) {
         users.add(user)
         mSharedPreferences.edit().putString(
             USERS_KEY,
-            mGson.toJson(users, USERS_TYPE)
+            mGson.toJson(
+                users,
+                USERS_TYPE
+            )
         ).apply()
         return true
     }
