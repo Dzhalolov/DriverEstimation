@@ -35,9 +35,11 @@ class AuthFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         btn_sign_in.setOnClickListener {
-            val startPersonalAreaActivity = Intent(activity, PersonalAreaActivity::class.java)
-            startActivity(startPersonalAreaActivity)
-            activity?.finish()
+            if (isValidData()) {
+                val startPersonalAreaActivity = Intent(activity, PersonalAreaActivity::class.java)
+                startActivity(startPersonalAreaActivity)
+                activity?.finish()
+            }
         }
 
         btn_sign_up.setOnClickListener {
@@ -46,6 +48,10 @@ class AuthFragment : Fragment() {
                 ?.addToBackStack(RegistrationFragment::class.java.name)
                 ?.commit()
         }
+    }
+
+    private fun isValidData(): Boolean {
+        return true
     }
 
 }
