@@ -2,7 +2,6 @@ package ru.example.driverestimation.ui.personalArea
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,11 +22,12 @@ class ProfileFragment : Fragment() {
     private val TAG = "DEBUG_TAG_PROFILE"
 
     companion object {
-        const val USER_ID: Long = 20202020
-        fun newInstance(): ProfileFragment {
+        var userId: Long = 0
+
+        fun newInstance(userId: Long): ProfileFragment {
             val args = Bundle()
-            val fragment =
-                ProfileFragment()
+            args.putLong(PersonalAreaActivity.USER_CODE, userId)
+            val fragment = ProfileFragment()
             fragment.arguments = args
             return fragment
         }
@@ -38,6 +38,8 @@ class ProfileFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        //get user from bundle
+        userId = arguments!!.getLong(PersonalAreaActivity.USER_CODE)
         return inflater.inflate(R.layout.fr_profile, container, false)
     }
 
@@ -52,21 +54,15 @@ class ProfileFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (sharedPreferencesHelper!!.getUser(USER_ID) != null)
-            user = sharedPreferencesHelper!!.getUser(USER_ID)
-        else {
-            user = User(
-                USER_ID, "danil.danil@mail.ru", "Danil", "123",
-                "LADA Priora", ""
-            )
-            sharedPreferencesHelper!!.addUser(user!!)
-        }
-        for (u in sharedPreferencesHelper!!.users) {
-            Log.d(TAG, "user: " + user.toString())
-        }
+        user = sharedPreferencesHelper!!.getUser(userId)
+
+        //set data from user obj
         et_name.setText(user!!.name)
-        et_login.setText(user!!.login)
+        et_login.setText(user!!.email)
         et_car.setText(user!!.car)
+
+        /* set profile photo
+        * if user hadn't add photo set default photo */
         Picasso.with(activity)
             .load(Uri.parse(user!!.uri))
             .placeholder(R.mipmap.ic_profile_photo)

@@ -20,11 +20,7 @@ class ChangePasswordFragment : Fragment() {
 
     companion object {
         fun newInstance(): ChangePasswordFragment {
-            val args = Bundle()
-            val fragment =
-                ChangePasswordFragment()
-            fragment.arguments = args
-            return fragment
+            return ChangePasswordFragment()
         }
     }
 
@@ -38,9 +34,10 @@ class ChangePasswordFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        sharedPreferencesHelper =
-            SharedPreferencesHelper(activity!!)
-        user = sharedPreferencesHelper!!.getUser(ProfileFragment.USER_ID)
+
+        sharedPreferencesHelper = SharedPreferencesHelper(activity!!)
+        user = sharedPreferencesHelper!!.getUser(ProfileFragment.userId)
+
         btn_change_password.setOnClickListener {
             if (isValidPassword) {
                 user!!.password = et_new_password.text.toString()

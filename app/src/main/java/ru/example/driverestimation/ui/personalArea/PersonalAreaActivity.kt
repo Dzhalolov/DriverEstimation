@@ -7,6 +7,10 @@ import ru.example.driverestimation.R
 
 class PersonalAreaActivity : AppCompatActivity() {
 
+    companion object {
+        val USER_CODE: String = "USER_CODE"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ac_personal_area)
@@ -21,14 +25,19 @@ class PersonalAreaActivity : AppCompatActivity() {
             }
         }
 
-        if(savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.container,
-                    ProfileFragment.newInstance()
-                )
-                .addToBackStack(ProfileFragment::class.java.name)
-                .commit()
+        val bundle = intent.extras
+        val userId = bundle?.getLong(USER_CODE)
+
+        if (savedInstanceState == null) {
+            userId?.let { ProfileFragment.newInstance(it) }?.let {
+                supportFragmentManager.beginTransaction()
+                    .replace(
+                        R.id.container,
+                        it
+                    )
+                    .addToBackStack(ProfileFragment::class.java.name)
+                    .commit()
+            }
         }
     }
 

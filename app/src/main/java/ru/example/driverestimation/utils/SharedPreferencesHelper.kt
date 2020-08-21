@@ -8,6 +8,7 @@ import ru.example.driverestimation.model.User
 import java.util.*
 
 class SharedPreferencesHelper(context: Context) {
+
     private val mSharedPreferences: SharedPreferences
     private val mGson = Gson()
     val users: MutableList<User>
@@ -25,7 +26,7 @@ class SharedPreferencesHelper(context: Context) {
     fun addUser(user: User): Boolean {
         val users = users
         for (u in users) {
-            if (u.id === user.id) {
+            if (u.id == user.id) {
                 users.remove(u)
                 break
             }
@@ -45,6 +46,16 @@ class SharedPreferencesHelper(context: Context) {
         val users: List<User> = users
         for (u in users) {
             if (u.id == userId) {
+                return u
+            }
+        }
+        return null
+    }
+
+    fun login(userEmail: String): User? {
+        val users: List<User> = users
+        for (u in users) {
+            if (u.email == userEmail) {
                 return u
             }
         }

@@ -35,11 +35,7 @@ class EditProfileFragment : Fragment() {
 
     companion object {
         fun newInstance(): EditProfileFragment {
-            val args = Bundle()
-            val fragment =
-                EditProfileFragment()
-            fragment.arguments = args
-            return fragment
+            return EditProfileFragment()
         }
     }
 
@@ -55,7 +51,7 @@ class EditProfileFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         sharedPreferencesHelper =
             SharedPreferencesHelper(activity!!)
-        user = sharedPreferencesHelper!!.getUser(ProfileFragment.USER_ID)
+        user = sharedPreferencesHelper!!.getUser(ProfileFragment.userId)
 
         et_profile_name.setText(user!!.name)
         et_profile_car.setText(user!!.car)
@@ -66,6 +62,12 @@ class EditProfileFragment : Fragment() {
             .fit()
             .into(iv_profile_photo)
 
+        /*
+        * on profile photo click listener
+        * show dialog window with 2 variants:
+        * - change photo (select from gallery)
+        * - delete photo
+        * */
         iv_profile_photo.setOnClickListener {
             val builder = AlertDialog.Builder(activity!!)
                 .setTitle("What do you want to do?")
@@ -79,6 +81,10 @@ class EditProfileFragment : Fragment() {
                 }
             builder.show()
         }
+
+        /*
+        * one more way to change profile photo
+        * */
         tv_change_photo.setOnClickListener {
             selectPhotoFromGallery()
         }
@@ -89,6 +95,10 @@ class EditProfileFragment : Fragment() {
                 et_profile_car.showDropDown()
             }
         }
+
+        /*
+        * set adapter for dropdown list on editText car
+        * */
         availableCarsAdapter = ArrayAdapter(
             activity!!,
             android.R.layout.simple_dropdown_item_1line,
@@ -97,22 +107,27 @@ class EditProfileFragment : Fragment() {
         et_profile_car.setAdapter<ArrayAdapter<String>>(availableCarsAdapter)
     }
 
+    /*
+    * handling request
+    * */
     override fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
         data: Intent?
     ) {
         if (resultCode == Activity.RESULT_OK && data != null) {
-            if (requestCode == CODE_GET_PHOTO) {
-                data.data?.let { uri ->
-                    launchImageCrop(uri)
+            when (requestCode) {
+                CODE_GET_PHOTO -> {
+                    data.data?.let { uri ->
+                        launchImageCrop(uri)
+                    }
                 }
-            }
-            if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-                val result = CropImage.getActivityResult(data)
-                val uri = result.uri
-                setImage(uri)
-                user!!.uri = uri.toString()
+                CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE -> {
+                    val result = CropImage.getActivityResult(data)
+                    val uri = result.uri
+                    setImage(uri)
+                    user!!.uri = uri.toString()
+                }
             }
         } else {
             Toast.makeText(activity, "Something went wrong", Toast.LENGTH_SHORT).show()

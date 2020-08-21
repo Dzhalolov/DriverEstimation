@@ -23,4 +23,6 @@
     <string name="being_first_here_sign_up">Being first here? Sign up!</string>
     <string name="your_name">Your name</string>
     <string name="your_car">Your car</string>
+    <string name="log_out">Log out</string>
+    <string name="about_app">About app</string>
 </resources>
