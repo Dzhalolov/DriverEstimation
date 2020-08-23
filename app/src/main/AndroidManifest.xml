@@ -20,7 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.personalArea.PersonalAreaActivity">
+        <activity android:name=".ui.personal_area.PersonalAreaActivity">
 
         </activity>
 

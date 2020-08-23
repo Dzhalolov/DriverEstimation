@@ -4,41 +4,21 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fr_auth.*
 import ru.example.driverestimation.R
-import ru.example.driverestimation.ui.personalArea.PersonalAreaActivity
+import ru.example.driverestimation.ui.personal_area.PersonalAreaActivity
 import ru.example.driverestimation.utils.SharedPreferencesHelper
 
-class AuthFragment : Fragment() {
-
-    private val TAG: String = "DEBUG_TAG"
+class AuthFragment : Fragment(R.layout.fr_auth) {
 
     var sharedPreferencesHelper: SharedPreferencesHelper? = null
-
-    companion object {
-        fun newInstance(): AuthFragment {
-            return AuthFragment()
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fr_auth, container, false)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         sharedPreferencesHelper = SharedPreferencesHelper(activity!!)
-
 
         //on button sign in click listener
         btn_sign_in.setOnClickListener {
@@ -70,7 +50,7 @@ class AuthFragment : Fragment() {
         btn_sign_up.setOnClickListener {
             //go to the registration fragment
             fragmentManager?.beginTransaction()
-                ?.replace(R.id.auth_container, RegistrationFragment.newInstance())
+                ?.replace(R.id.auth_container, RegistrationFragment())
                 ?.addToBackStack(RegistrationFragment::class.java.name)
                 ?.commit()
         }

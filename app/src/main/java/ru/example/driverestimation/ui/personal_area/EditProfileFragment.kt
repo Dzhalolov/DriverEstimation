@@ -1,4 +1,4 @@
-package ru.example.driverestimation.ui.personalArea
+package ru.example.driverestimation.ui.personal_area
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -9,10 +9,8 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnFocusChangeListener
-import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -25,7 +23,7 @@ import ru.example.driverestimation.model.User
 import ru.example.driverestimation.utils.CircleTransform
 import ru.example.driverestimation.utils.SharedPreferencesHelper
 
-class EditProfileFragment : Fragment() {
+class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
 
     private var user: User? = null
     private var sharedPreferencesHelper: SharedPreferencesHelper? = null
@@ -33,19 +31,6 @@ class EditProfileFragment : Fragment() {
     private val TAG: String = "DEBUG_TAG"
     private var availableCarsAdapter: ArrayAdapter<String>? = null
 
-    companion object {
-        fun newInstance(): EditProfileFragment {
-            return EditProfileFragment()
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fr_edit_profile, container, false)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

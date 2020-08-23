@@ -1,11 +1,8 @@
-package ru.example.driverestimation.ui.personalArea
+package ru.example.driverestimation.ui.personal_area
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fr_change_password.*
@@ -14,23 +11,11 @@ import ru.example.driverestimation.R
 import ru.example.driverestimation.model.User
 import ru.example.driverestimation.utils.SharedPreferencesHelper
 
-class ChangePasswordFragment : Fragment() {
+class ChangePasswordFragment : Fragment(R.layout.fr_change_password) {
+
     private var sharedPreferencesHelper: SharedPreferencesHelper? = null
     private var user: User? = null
 
-    companion object {
-        fun newInstance(): ChangePasswordFragment {
-            return ChangePasswordFragment()
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fr_change_password, container, false)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

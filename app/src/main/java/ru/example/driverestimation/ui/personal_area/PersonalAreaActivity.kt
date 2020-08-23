@@ -1,4 +1,4 @@
-package ru.example.driverestimation.ui.personalArea
+package ru.example.driverestimation.ui.personal_area
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

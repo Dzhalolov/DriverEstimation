@@ -3,9 +3,6 @@ package ru.example.driverestimation.ui.auth
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Patterns
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fr_registration.*
@@ -15,24 +12,10 @@ import ru.example.driverestimation.utils.SharedPreferencesHelper
 import java.util.*
 import kotlin.math.abs
 
-class RegistrationFragment : Fragment() {
+class RegistrationFragment : Fragment(R.layout.fr_registration) {
 
     private val TAG: String = "DEBUG_TAG"
     var mSharedPreferencesHelper: SharedPreferencesHelper? = null
-
-    companion object {
-        fun newInstance(): RegistrationFragment {
-            return RegistrationFragment()
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fr_registration, container, false)
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)

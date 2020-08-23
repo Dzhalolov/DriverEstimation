@@ -1,10 +1,8 @@
-package ru.example.driverestimation.ui.personalArea
+package ru.example.driverestimation.ui.personal_area
 
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.squareup.picasso.Picasso
@@ -15,7 +13,7 @@ import ru.example.driverestimation.utils.CircleTransform
 import ru.example.driverestimation.utils.SharedPreferencesHelper
 
 
-class ProfileFragment : Fragment() {
+class ProfileFragment : Fragment(R.layout.fr_profile) {
 
     private var sharedPreferencesHelper: SharedPreferencesHelper? = null
     private var user: User? = null
@@ -33,18 +31,10 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        //get user from bundle
-        userId = arguments!!.getLong(PersonalAreaActivity.USER_CODE)
-        return inflater.inflate(R.layout.fr_profile, container, false)
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        userId = arguments!!.getLong(PersonalAreaActivity.USER_CODE)
         sharedPreferencesHelper =
             SharedPreferencesHelper(activity!!)
 
@@ -79,7 +69,7 @@ class ProfileFragment : Fragment() {
                     .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                     .replace(
                         R.id.container,
-                        EditProfileFragment.newInstance()
+                        EditProfileFragment()
                     )
                     .addToBackStack(EditProfileFragment::class.java.name)
                     .commit()
@@ -95,7 +85,7 @@ class ProfileFragment : Fragment() {
                     .setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out)
                     .replace(
                         R.id.container,
-                        ChangePasswordFragment.newInstance()
+                        ChangePasswordFragment()
                     )
                     .addToBackStack(ChangePasswordFragment::class.java.name)
                     .commit()
