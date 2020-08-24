@@ -2,6 +2,7 @@ package ru.example.driverestimation.ui.personal_area
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -45,6 +46,8 @@ class ProfileFragment : Fragment(R.layout.fr_profile) {
     override fun onResume() {
         super.onResume()
         user = sharedPreferencesHelper!!.getUser(userId)
+
+        Log.d(TAG, "onResume: $user")
 
         //set data from user obj
         et_name.setText(user!!.name)

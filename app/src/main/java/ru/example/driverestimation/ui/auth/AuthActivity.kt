@@ -21,7 +21,7 @@ class AuthActivity : AppCompatActivity() {
         }
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.auth_container, AuthFragment.newInstance())
+            .replace(R.id.auth_container, AuthFragment())
             .addToBackStack(AuthFragment::class.java.name)
             .commit()
     }
