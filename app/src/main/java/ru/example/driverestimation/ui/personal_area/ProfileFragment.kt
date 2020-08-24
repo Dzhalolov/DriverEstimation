@@ -1,7 +1,6 @@
 package ru.example.driverestimation.ui.personal_area
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +12,6 @@ import kotlinx.android.synthetic.main.fr_profile.*
 import ru.example.driverestimation.MainActivity
 import ru.example.driverestimation.R
 import ru.example.driverestimation.model.User
-import ru.example.driverestimation.ui.auth.AuthActivity
 import ru.example.driverestimation.utils.CircleTransform
 import ru.example.driverestimation.utils.SharedPreferencesHelper
 
@@ -54,53 +52,24 @@ class ProfileFragment : Fragment(R.layout.fr_profile) {
         super.onResume()
         Log.d(TAG, "onResume: $userId")
 
-        if (isAuth()) {
-            user = sharedPreferencesHelper.getUser(userId)
+        user = sharedPreferencesHelper.getUser(userId)
 
-            Log.d(TAG, "onResume: $user")
+        Log.d(TAG, "onResume: $user")
 
-            //set data from user obj
-            et_name.setText(user!!.name)
-            et_login.setText(user!!.email)
-            et_car.setText(user!!.car)
+        //set data from user obj
+        et_name.setText(user!!.name)
+        et_login.setText(user!!.email)
+        et_car.setText(user!!.car)
 
-            /* set profile photo
-            * if user hadn't add photo set default photo */
-            Picasso.with(activity)
-                .load(Uri.parse(user!!.uri))
-                .placeholder(R.mipmap.ic_profile_photo)
-                .transform(CircleTransform())
-                .fit()
-                .into(iv_photo)
-        } else {
-            val intent = Intent(activity!!, AuthActivity::class.java)
-            startActivity(intent)
-            activity!!.finish()
-        }
-
-        /*if (user != null) {
-            Log.d(TAG, "onResume: $user")
-
-            //set data from user obj
-            et_name.setText(user!!.name)
-            et_login.setText(user!!.email)
-            et_car.setText(user!!.car)
-
-            *//* set profile photo
-            * if user hadn't add photo set default photo *//*
-            Picasso.with(activity)
-                .load(Uri.parse(user!!.uri))
-                .placeholder(R.mipmap.ic_profile_photo)
-                .transform(CircleTransform())
-                .fit()
-                .into(iv_photo)
-        } else {
-            val intent = Intent(activity!!, AuthFragment::class.java)
-            startActivity(intent)
-        }*/
+        /* set profile photo
+        * if user hadn't add photo set default photo */
+        Picasso.with(activity)
+            .load(Uri.parse(user!!.uri))
+            .placeholder(R.mipmap.ic_profile_photo)
+            .transform(CircleTransform())
+            .fit()
+            .into(iv_photo)
     }
-
-    private fun isAuth(): Boolean = userId != 0L
 
     private fun switchToEditProfileFragment(): View.OnClickListener {
         return View.OnClickListener {

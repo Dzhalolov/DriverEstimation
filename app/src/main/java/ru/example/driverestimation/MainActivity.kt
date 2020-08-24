@@ -2,6 +2,7 @@ package ru.example.driverestimation
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.ac_personal_area.*
@@ -19,16 +20,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ac_personal_area)
 
-        val sharedPreferences = this.getSharedPreferences(USER_ID_KEY, Context.MODE_PRIVATE)
+        val userSp = this.getSharedPreferences(USER_ID_KEY, Context.MODE_PRIVATE)
 
         val bundle = intent.extras
         val userId = bundle?.getLong(AuthFragment.USER_CODE)
 
         if (userId != null) {
-            sharedPreferences.edit().putLong(USER_ID_KEY, userId).apply()
+            userSp.edit().putLong(USER_ID_KEY, userId).apply()
         }
 
-        if (sharedPreferences.getLong(USER_ID_KEY, 0L) != 0L) {
+        if (isAuth(userSp)) {
             if (savedInstanceState == null) {
                 supportFragmentManager.beginTransaction()
                     .replace(
@@ -39,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                     .commit()
             }
         } else {
-            sharedPreferences.edit().putLong(USER_ID_KEY, 0).apply()
+            userSp.edit().putLong(USER_ID_KEY, 0).apply()
             val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
             this.finish()
@@ -56,13 +57,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_logout.setOnClickListener {
-            sharedPreferences.edit().putLong(USER_ID_KEY, 0).apply()
+            userSp.edit().putLong(USER_ID_KEY, 0).apply()
             val intent = Intent(this, AuthActivity::class.java)
             startActivity(intent)
             this.finish()
         }
 
     }
+
+    private fun isAuth(sharedPreferences: SharedPreferences) =
+        sharedPreferences.getLong(USER_ID_KEY, 0L) != 0L
 
     override fun onBackPressed() {
         val fragmentManager = supportFragmentManager
