@@ -13,7 +13,7 @@
     <string name="car">car</string>
     <string name="change_photo">Change photo</string>
     <string name="registration">Registration</string>
-    <string name="enter_your_email_or_phone_number">Enter your email or phone number</string>
+    <string name="enter_your_email_or_phone_number">email or phone number</string>
     <string name="your_password">Your password</string>
     <string name="your_password_again">Your password again</string>
     <string name="authentication">Authentication</string>

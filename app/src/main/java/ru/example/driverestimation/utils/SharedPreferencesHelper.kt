@@ -20,8 +20,22 @@ class SharedPreferencesHelper(context: Context) {
                 ),
                 USERS_TYPE
             )
-            return users as MutableList<User>? ?: ArrayList<User>()
+            return users as MutableList<User>? ?: ArrayList()
         }
+
+    companion object {
+        const val SHARED_PREF_NAME = "SHARED_PREF_NAME"
+        const val USERS_KEY = "USERS_KEY"
+        val USERS_TYPE =
+            object : TypeToken<List<User?>?>() {}.type
+    }
+
+    init {
+        mSharedPreferences = context.getSharedPreferences(
+            SHARED_PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+    }
 
     fun addUser(user: User): Boolean {
         val users = users
@@ -60,19 +74,5 @@ class SharedPreferencesHelper(context: Context) {
             }
         }
         return null
-    }
-
-    companion object {
-        const val SHARED_PREF_NAME = "SHARED_PREF_NAME"
-        const val USERS_KEY = "USERS_KEY"
-        val USERS_TYPE =
-            object : TypeToken<List<User?>?>() {}.type
-    }
-
-    init {
-        mSharedPreferences = context.getSharedPreferences(
-            SHARED_PREF_NAME,
-            Context.MODE_PRIVATE
-        )
     }
 }

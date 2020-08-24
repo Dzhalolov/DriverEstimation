@@ -1,5 +1,7 @@
 package ru.example.driverestimation.ui.personal_area
 
+import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -8,34 +10,39 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fr_profile.*
+import ru.example.driverestimation.MainActivity
 import ru.example.driverestimation.R
 import ru.example.driverestimation.model.User
+import ru.example.driverestimation.ui.auth.AuthActivity
 import ru.example.driverestimation.utils.CircleTransform
 import ru.example.driverestimation.utils.SharedPreferencesHelper
 
 
 class ProfileFragment : Fragment(R.layout.fr_profile) {
 
-    private var sharedPreferencesHelper: SharedPreferencesHelper? = null
+    private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
     private var user: User? = null
     private val TAG = "DEBUG_TAG_PROFILE"
 
     companion object {
         var userId: Long = 0
 
-        fun newInstance(userId: Long): ProfileFragment {
+        /*fun newInstance(userId: Long): ProfileFragment {
             val args = Bundle()
-            args.putLong(PersonalAreaActivity.USER_CODE, userId)
+            args.putLong(AuthFragment.USER_CODE, userId)
             val fragment = ProfileFragment()
             fragment.arguments = args
             return fragment
-        }
+        }*/
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        userId = arguments!!.getLong(PersonalAreaActivity.USER_CODE)
+        val sharedPreferences =
+            activity!!.getSharedPreferences(MainActivity.USER_ID_KEY, Context.MODE_PRIVATE)
+        userId = sharedPreferences.getLong(MainActivity.USER_ID_KEY, 0)
+
         sharedPreferencesHelper =
             SharedPreferencesHelper(activity!!)
 
@@ -45,24 +52,55 @@ class ProfileFragment : Fragment(R.layout.fr_profile) {
 
     override fun onResume() {
         super.onResume()
-        user = sharedPreferencesHelper!!.getUser(userId)
+        Log.d(TAG, "onResume: $userId")
 
-        Log.d(TAG, "onResume: $user")
+        if (isAuth()) {
+            user = sharedPreferencesHelper.getUser(userId)
 
-        //set data from user obj
-        et_name.setText(user!!.name)
-        et_login.setText(user!!.email)
-        et_car.setText(user!!.car)
+            Log.d(TAG, "onResume: $user")
 
-        /* set profile photo
-        * if user hadn't add photo set default photo */
-        Picasso.with(activity)
-            .load(Uri.parse(user!!.uri))
-            .placeholder(R.mipmap.ic_profile_photo)
-            .transform(CircleTransform())
-            .fit()
-            .into(iv_photo)
+            //set data from user obj
+            et_name.setText(user!!.name)
+            et_login.setText(user!!.email)
+            et_car.setText(user!!.car)
+
+            /* set profile photo
+            * if user hadn't add photo set default photo */
+            Picasso.with(activity)
+                .load(Uri.parse(user!!.uri))
+                .placeholder(R.mipmap.ic_profile_photo)
+                .transform(CircleTransform())
+                .fit()
+                .into(iv_photo)
+        } else {
+            val intent = Intent(activity!!, AuthActivity::class.java)
+            startActivity(intent)
+            activity!!.finish()
+        }
+
+        /*if (user != null) {
+            Log.d(TAG, "onResume: $user")
+
+            //set data from user obj
+            et_name.setText(user!!.name)
+            et_login.setText(user!!.email)
+            et_car.setText(user!!.car)
+
+            *//* set profile photo
+            * if user hadn't add photo set default photo *//*
+            Picasso.with(activity)
+                .load(Uri.parse(user!!.uri))
+                .placeholder(R.mipmap.ic_profile_photo)
+                .transform(CircleTransform())
+                .fit()
+                .into(iv_photo)
+        } else {
+            val intent = Intent(activity!!, AuthFragment::class.java)
+            startActivity(intent)
+        }*/
     }
+
+    private fun isAuth(): Boolean = userId != 0L
 
     private fun switchToEditProfileFragment(): View.OnClickListener {
         return View.OnClickListener {

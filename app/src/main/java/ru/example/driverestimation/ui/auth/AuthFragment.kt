@@ -7,11 +7,15 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fr_auth.*
+import ru.example.driverestimation.MainActivity
 import ru.example.driverestimation.R
-import ru.example.driverestimation.ui.personal_area.PersonalAreaActivity
 import ru.example.driverestimation.utils.SharedPreferencesHelper
 
 class AuthFragment : Fragment(R.layout.fr_auth) {
+
+    companion object {
+        val USER_CODE: String = "USER_CODE"
+    }
 
     var sharedPreferencesHelper: SharedPreferencesHelper? = null
 
@@ -28,12 +32,13 @@ class AuthFragment : Fragment(R.layout.fr_auth) {
 
                 //if correct data go to the personal area
                 if (user != null) {
+
                     val startPersonalAreaActivity =
-                        Intent(activity, PersonalAreaActivity::class.java)
+                        Intent(activity, MainActivity::class.java)
 
                     //sending user id to PersonalAreaActivity
                     val extras = Bundle()
-                    extras.putLong(PersonalAreaActivity.USER_CODE, user.id)
+                    extras.putLong(USER_CODE, user.id)
                     startPersonalAreaActivity.putExtras(extras)
 
                     startActivity(startPersonalAreaActivity)

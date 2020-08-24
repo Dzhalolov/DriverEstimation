@@ -6,7 +6,6 @@ import android.text.TextUtils
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fr_change_password.*
-import kotlinx.android.synthetic.main.fr_profile.*
 import ru.example.driverestimation.R
 import ru.example.driverestimation.model.User
 import ru.example.driverestimation.utils.SharedPreferencesHelper
@@ -23,7 +22,7 @@ class ChangePasswordFragment : Fragment(R.layout.fr_change_password) {
         sharedPreferencesHelper = SharedPreferencesHelper(activity!!)
         user = sharedPreferencesHelper!!.getUser(ProfileFragment.userId)
 
-        btn_change_password.setOnClickListener {
+        btn_submit_password_change.setOnClickListener {
             if (isValidPassword) {
                 user!!.password = et_new_password.text.toString()
                 sharedPreferencesHelper!!.addUser(user!!)
@@ -34,7 +33,7 @@ class ChangePasswordFragment : Fragment(R.layout.fr_change_password) {
 
     @get:SuppressLint("ResourceAsColor")
     private val isValidPassword: Boolean
-        private get() {
+        get() {
             val currPass = et_curr_password.text.toString()
             val newPass = et_new_password.text.toString()
             val newPassAgain = et_new_password_again.text.toString()
