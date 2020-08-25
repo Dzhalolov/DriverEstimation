@@ -2,7 +2,7 @@ package ru.example.driverestimation.ui.auth
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.ac_personal_area.*
+import kotlinx.android.synthetic.main.ac_main.*
 import ru.example.driverestimation.R
 
 class AuthActivity : AppCompatActivity() {

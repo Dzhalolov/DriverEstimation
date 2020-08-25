@@ -1,35 +1,34 @@
 package ru.example.driverestimation
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.ac_personal_area.*
+import kotlinx.android.synthetic.main.ac_main.*
 import ru.example.driverestimation.ui.auth.AuthActivity
 import ru.example.driverestimation.ui.auth.AuthFragment
 import ru.example.driverestimation.ui.personal_area.ProfileFragment
+import ru.example.driverestimation.utils.Auth
 
 class MainActivity : AppCompatActivity() {
 
-    companion object {
-        val USER_ID_KEY: String = "USER_ID_KEY"
-    }
+    private lateinit var userAuth: Auth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.ac_personal_area)
+        setContentView(R.layout.ac_main)
 
-        val userSp = this.getSharedPreferences(USER_ID_KEY, Context.MODE_PRIVATE)
+        userAuth = Auth(this)
 
+        //get data from auth activity
         val bundle = intent.extras
         val userId = bundle?.getLong(AuthFragment.USER_CODE)
 
         if (userId != null) {
-            userSp.edit().putLong(USER_ID_KEY, userId).apply()
+            //remember user auth
+            userAuth.addUser(userId)
         }
 
-        if (isAuth(userSp)) {
+        if (userAuth.isAuthed()) {
             if (savedInstanceState == null) {
                 supportFragmentManager.beginTransaction()
                     .replace(
@@ -40,10 +39,7 @@ class MainActivity : AppCompatActivity() {
                     .commit()
             }
         } else {
-            userSp.edit().putLong(USER_ID_KEY, 0).apply()
-            val intent = Intent(this, AuthActivity::class.java)
-            startActivity(intent)
-            this.finish()
+            goToAuthActivity()
         }
 
         iv_back.setOnClickListener {
@@ -57,16 +53,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         btn_logout.setOnClickListener {
-            userSp.edit().putLong(USER_ID_KEY, 0).apply()
-            val intent = Intent(this, AuthActivity::class.java)
-            startActivity(intent)
-            this.finish()
+            userAuth.deleteUser()
+            goToAuthActivity()
         }
 
     }
 
-    private fun isAuth(sharedPreferences: SharedPreferences) =
-        sharedPreferences.getLong(USER_ID_KEY, 0L) != 0L
+    private fun goToAuthActivity() {
+        val intent = Intent(this, AuthActivity::class.java)
+        startActivity(intent)
+        this.finish()
+    }
 
     override fun onBackPressed() {
         val fragmentManager = supportFragmentManager

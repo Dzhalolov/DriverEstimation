@@ -9,16 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fr_profile.*
-import ru.example.driverestimation.MainActivity
 import ru.example.driverestimation.R
 import ru.example.driverestimation.model.User
+import ru.example.driverestimation.utils.Auth
 import ru.example.driverestimation.utils.CircleTransform
-import ru.example.driverestimation.utils.SharedPreferencesHelper
+import ru.example.driverestimation.utils.UserController
 
 
 class ProfileFragment : Fragment(R.layout.fr_profile) {
 
-    private lateinit var sharedPreferencesHelper: SharedPreferencesHelper
+    private lateinit var sharedPreferencesHelper: UserController
     private var user: User? = null
     private val TAG = "DEBUG_TAG_PROFILE"
 
@@ -38,11 +38,11 @@ class ProfileFragment : Fragment(R.layout.fr_profile) {
         super.onActivityCreated(savedInstanceState)
 
         val sharedPreferences =
-            activity!!.getSharedPreferences(MainActivity.USER_ID_KEY, Context.MODE_PRIVATE)
-        userId = sharedPreferences.getLong(MainActivity.USER_ID_KEY, 0)
+            activity!!.getSharedPreferences(Auth.USER_ID_KEY, Context.MODE_PRIVATE)
+        userId = sharedPreferences.getLong(Auth.USER_ID_KEY, 0)
 
         sharedPreferencesHelper =
-            SharedPreferencesHelper(activity!!)
+            UserController(activity!!)
 
         btn_edit_profile.setOnClickListener(switchToEditProfileFragment())
         btn_change_password.setOnClickListener(switchToChangePasswordFragment())

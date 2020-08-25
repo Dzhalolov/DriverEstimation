@@ -21,34 +21,28 @@ import kotlinx.android.synthetic.main.fr_edit_profile.*
 import ru.example.driverestimation.R
 import ru.example.driverestimation.model.User
 import ru.example.driverestimation.utils.CircleTransform
-import ru.example.driverestimation.utils.SharedPreferencesHelper
+import ru.example.driverestimation.utils.UserController
 
 class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
 
     private var user: User? = null
-    private var sharedPreferencesHelper: SharedPreferencesHelper? = null
+    private lateinit var userController: UserController
     private val CODE_GET_PHOTO = 101
-    private val TAG: String = "DEBUG_TAG"
-    private var availableCarsAdapter: ArrayAdapter<String>? = null
+    private val TAG = "DEBUG_TAG"
+    private lateinit var availableCarsAdapter: ArrayAdapter<String>
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        sharedPreferencesHelper =
-            SharedPreferencesHelper(activity!!)
-        user = sharedPreferencesHelper!!.getUser(ProfileFragment.userId)
+        userController =
+            UserController(activity!!)
+        user = userController.getUser(ProfileFragment.userId)
 
         et_profile_name.setText(user!!.name)
         et_profile_car.setText(user!!.car)
-        Picasso.with(activity)
-            .load(Uri.parse(user!!.uri))
-            .placeholder(R.mipmap.ic_profile_photo)
-            .transform(CircleTransform())
-            .fit()
-            .into(iv_profile_photo)
+        setImage(Uri.parse(user!!.uri))
 
-        /*
-        * on profile photo click listener
+        /* on profile photo click listener
         * show dialog window with 2 variants:
         * - change photo (select from gallery)
         * - delete photo
@@ -75,7 +69,7 @@ class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
         }
         btn_save_profile_changes.setOnClickListener(onBtnSaveClickListener())
 
-        et_profile_car.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+        et_profile_car.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 et_profile_car.showDropDown()
             }
@@ -134,7 +128,7 @@ class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
         intent.type = "image/*"
         val mimeTypes = arrayOf("image/jpeg", "image/png", "image/jpg")
         intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes)
-        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         startActivityForResult(intent, CODE_GET_PHOTO)
     }
 
@@ -162,7 +156,7 @@ class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
                 user!!.name = et_profile_name.text.toString()
                 user!!.car = et_profile_car.text.toString()
                 Log.d(TAG, "onClick: " + user.toString())
-                sharedPreferencesHelper!!.addUser(user!!)
+                userController.addUser(user!!)
                 fragmentManager!!.popBackStack()
             } else
                 Toast.makeText(activity, "Error!!!\nFields are empty!", Toast.LENGTH_SHORT).show()

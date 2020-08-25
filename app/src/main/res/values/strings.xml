@@ -14,8 +14,8 @@
     <string name="change_photo">Change photo</string>
     <string name="registration">Registration</string>
     <string name="enter_your_email_or_phone_number">email or phone number</string>
-    <string name="your_password">Your password</string>
-    <string name="your_password_again">Your password again</string>
+    <string name="your_password">password</string>
+    <string name="your_password_again">password again</string>
     <string name="authentication">Authentication</string>
     <string name="forgot_your_password">Forgot your password?</string>
     <string name="sign_in">Sign in</string>

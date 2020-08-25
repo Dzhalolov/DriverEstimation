@@ -8,24 +8,23 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fr_change_password.*
 import ru.example.driverestimation.R
 import ru.example.driverestimation.model.User
-import ru.example.driverestimation.utils.SharedPreferencesHelper
+import ru.example.driverestimation.utils.UserController
 
 class ChangePasswordFragment : Fragment(R.layout.fr_change_password) {
 
-    private var sharedPreferencesHelper: SharedPreferencesHelper? = null
+    private lateinit var userController: UserController
     private var user: User? = null
-
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        sharedPreferencesHelper = SharedPreferencesHelper(activity!!)
-        user = sharedPreferencesHelper!!.getUser(ProfileFragment.userId)
+        userController = UserController(activity!!)
+        user = userController.getUser(ProfileFragment.userId)
 
         btn_submit_password_change.setOnClickListener {
             if (isValidPassword) {
                 user!!.password = et_new_password.text.toString()
-                sharedPreferencesHelper!!.addUser(user!!)
+                userController.addUser(user!!)
                 fragmentManager!!.popBackStack()
             }
         }

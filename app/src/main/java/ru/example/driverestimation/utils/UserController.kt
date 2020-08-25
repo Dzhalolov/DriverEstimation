@@ -7,10 +7,26 @@ import com.google.gson.reflect.TypeToken
 import ru.example.driverestimation.model.User
 import java.util.*
 
-class SharedPreferencesHelper(context: Context) {
+class UserController(context: Context) {
+
+    companion object {
+        const val SHARED_PREF_NAME = "SHARED_PREF_NAME"
+        const val USERS_KEY = "USERS_KEY"
+        val USERS_TYPE =
+            object : TypeToken<List<User?>?>() {}.type
+    }
 
     private val mSharedPreferences: SharedPreferences
+
+    init {
+        mSharedPreferences = context.getSharedPreferences(
+            SHARED_PREF_NAME,
+            Context.MODE_PRIVATE
+        )
+    }
+
     private val mGson = Gson()
+
     val users: MutableList<User>
         get() {
             val users = mGson.fromJson<List<User>>(
@@ -22,20 +38,6 @@ class SharedPreferencesHelper(context: Context) {
             )
             return users as MutableList<User>? ?: ArrayList()
         }
-
-    companion object {
-        const val SHARED_PREF_NAME = "SHARED_PREF_NAME"
-        const val USERS_KEY = "USERS_KEY"
-        val USERS_TYPE =
-            object : TypeToken<List<User?>?>() {}.type
-    }
-
-    init {
-        mSharedPreferences = context.getSharedPreferences(
-            SHARED_PREF_NAME,
-            Context.MODE_PRIVATE
-        )
-    }
 
     fun addUser(user: User): Boolean {
         val users = users

@@ -8,19 +8,18 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fr_registration.*
 import ru.example.driverestimation.R
 import ru.example.driverestimation.model.User
-import ru.example.driverestimation.utils.SharedPreferencesHelper
+import ru.example.driverestimation.utils.UserController
 import java.util.*
 import kotlin.math.abs
 
 class RegistrationFragment : Fragment(R.layout.fr_registration) {
 
-    private val TAG: String = "DEBUG_TAG"
-    var mSharedPreferencesHelper: SharedPreferencesHelper? = null
+    private lateinit var userController: UserController
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        mSharedPreferencesHelper = SharedPreferencesHelper(activity!!)
+        userController = UserController(activity!!)
 
         /* on button submit click listener.
         * if valid data:
@@ -36,7 +35,7 @@ class RegistrationFragment : Fragment(R.layout.fr_registration) {
                     et_registration_car_name.text.toString(),
                     ""
                 )
-                mSharedPreferencesHelper?.addUser(user)
+                userController.addUser(user)
                 fragmentManager?.popBackStack()
                 Toast.makeText(activity, "Successful registration!", Toast.LENGTH_SHORT).show()
             }

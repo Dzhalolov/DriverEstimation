@@ -15,6 +15,7 @@
         style="@style/et_registration_style"
         android:hint="@string/enter_your_email_or_phone_number"
         android:text=""
+        android:inputType="text"
         tools:ignore="TextFields" />
 
     <EditText

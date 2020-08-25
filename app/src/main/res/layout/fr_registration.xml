@@ -14,6 +14,7 @@
         android:id="@+id/et_email"
         style="@style/et_registration_style"
         android:hint="@string/enter_your_email_or_phone_number"
+        android:inputType="text"
         android:text=""
         tools:ignore="TextFields" />
 
@@ -21,6 +22,7 @@
         android:id="@+id/et_registration_name"
         style="@style/et_registration_style"
         android:hint="@string/your_name"
+        android:inputType="text"
         android:text=""
         tools:ignore="TextFields" />
 
@@ -28,6 +30,7 @@
         android:id="@+id/et_registration_car_name"
         style="@style/et_registration_style"
         android:hint="@string/your_car"
+        android:inputType="text"
         android:text=""
         tools:ignore="TextFields" />
 

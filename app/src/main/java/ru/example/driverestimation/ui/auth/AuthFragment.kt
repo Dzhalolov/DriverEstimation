@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fr_auth.*
 import ru.example.driverestimation.MainActivity
 import ru.example.driverestimation.R
-import ru.example.driverestimation.utils.SharedPreferencesHelper
+import ru.example.driverestimation.utils.UserController
 
 class AuthFragment : Fragment(R.layout.fr_auth) {
 
@@ -17,18 +17,18 @@ class AuthFragment : Fragment(R.layout.fr_auth) {
         val USER_CODE: String = "USER_CODE"
     }
 
-    var sharedPreferencesHelper: SharedPreferencesHelper? = null
+    private lateinit var userController: UserController
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        sharedPreferencesHelper = SharedPreferencesHelper(activity!!)
+        userController = UserController(activity!!)
 
         //on button sign in click listener
         btn_sign_in.setOnClickListener {
             if (isValidData()) {
                 //get user from sharedPref
-                val user = sharedPreferencesHelper!!.login(et_email.text.toString())
+                val user = userController.login(et_email.text.toString())
 
                 //if correct data go to the personal area
                 if (user != null) {
