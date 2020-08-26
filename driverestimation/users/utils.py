@@ -3,6 +3,7 @@ import secrets
 from flask import url_for, current_app
 from flask_mail import Message
 from driverestimation import mail
+from driverestimation.models import User
 
 
 def send_reset_email(user):
@@ -27,3 +28,5 @@ def send_confirm_email(user):
     If you did not make this request then simply ignore this email.
     '''
     mail.send(msg)
+
+

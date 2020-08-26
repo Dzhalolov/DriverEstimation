@@ -1,0 +1,54 @@
+version: '3.6'
+
+services:
+  db:
+    container_name: postgres
+    environment:
+      POSTGRES_USER: postgre
+      POSTGRES_PASSWORD: test
+      POSTGRES_DB: test
+    image: postgres:latest
+    networks:
+      - default
+    ports:
+      - 5405:5432
+    restart: always
+    #volumes:
+    #  - ./postgres-data:/var/lib/postgresql/data
+    
+  api:
+    depends_on:
+      - db
+    restart: always
+    container_name: driver
+    build:
+      context: .
+      dockerfile: docker/flask/Dockerfile
+    command: uwsgi --ini /etc/uwsgi.ini
+    environment:
+      STAGE: test
+      SQLALCHEMY_DATABASE_URI: postgresql+psycopg2://postgre:test@db/test
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASS: ${EMAIL_PASS}
+    networks:
+      - default
+    ports:
+      - 8000:8000
+    volumes:
+      - ./driverestimation:/home/user/driverestimation
+      - ./migrations:/usr/src/app/migrations
+    restart: always
+    
+  web_server:
+    restart: always
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    depends_on:
+      - api
+    ports:
+      - 8080:8080
+       
+
+ 

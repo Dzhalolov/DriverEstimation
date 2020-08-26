@@ -1,28 +1,28 @@
-from flask import render_template, url_for, flash, redirect, request, Blueprint
+from flask import request, Blueprint, jsonify, Response
 from flask_login import login_user, current_user, logout_user, login_required
 from driverestimation import db, bcrypt
 from driverestimation.models import User
-from driverestimation.users.forms import (RegistrationForm, LoginForm, UpdateAccountForm,
-                                   RequestResetForm, ResetPasswordForm)
 from driverestimation.users.utils import send_reset_email, send_confirm_email
 
-
 users = Blueprint('users', __name__)
+
 
 @users.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
-    form = RegistrationForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(username=form.username.data, email=form.email.data, password=hashed_password, car=form.car.data, confirmed=False)
-        db.session.add(user)
-        db.session.commit()
-        send_confirm_email(user)
-        flash('To confirm the registration check your email', 'success')
-        return redirect(url_for('users.login'))
-    return render_template('register.html', title='Register', form=form)
+        return Response(status=301)
+    if request.method == 'POST':
+        user_json = request.get_json(force=True)
+        if User.query.filter_by(email=user_json['email']).first() is None:
+            hashed_password = bcrypt.generate_password_hash(user_json['password']).decode('utf-8')
+            user = User(username=user_json['username'], email=user_json['email'], password=hashed_password,
+                        car=user_json['car'], confirmed=False)
+            db.session.add(user)
+            db.session.commit()
+            send_confirm_email(user)
+            return Response(status=200)
+        else:
+            return Response(status=417)
 
 
 @users.route('/confirm/<token>')
@@ -30,86 +30,81 @@ def confirm_email(token):
     try:
         email = User.verify_confirm_token(token)
     except:
-        flash('The confirmation link is invalid or has expired.', 'danger')
+        return Response(status=404)
     user = User.query.filter_by(email=email).first_or_404()
     if user.confirmed:
-        flash('Account already confirmed. Please login.', 'success')
+        return Response(status=301)
     else:
         user.confirmed = True
         db.session.add(user)
         db.session.commit()
-        flash('You have confirmed your account. Thanks!', 'success')
-    return redirect(url_for('users.login'))
+        return Response(status=200)
 
 
 @users.route("/login", methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user and bcrypt.check_password_hash(user.password, form.password.data) and user.confirmed:
-            login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('main.home'))
+        return Response(status=301)
+    if request.method == 'POST':
+        user_json = request.get_json()
+        user = User.query.filter_by(email=user_json['email']).first()
+        if user and bcrypt.check_password_hash(user.password, user_json['password']) and user.confirmed:
+            login_user(user, remember=True)  # хз, надо или нет
+            return Response(status=200)
         else:
-            flash('Login Unsuccessful. Please check email and password', 'danger')
-    return render_template('login.html', title='Login', form=form)
+            return Response(status=403)
 
 
 @users.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('main.home'))
+    return Response(status=200)
 
 
 @users.route("/account", methods=['GET', 'POST'])
 @login_required
 def account():
-    form = UpdateAccountForm()
-    if form.validate_on_submit():
-        current_user.username = form.username.data
-        current_user.email = form.email.data
-        current_user.car = form.car.data
-        db.session.commit()
-        flash('Your account has been updated!', 'success')
-        return redirect(url_for('users.account'))
+    if request.method == 'POST':
+        user_json = request.get_json()
+        if current_user.email != user_json['email'] and User.query.filter_by(email=user_json['email']).first() is not None:
+            return Response(status=417)
+        else:
+            current_user.username = user_json['username']
+            current_user.email = user_json['email']
+            current_user.car = user_json['car']
+            current_user.image_file = user_json['image_file']
+            db.session.commit()
+            return Response(status=200)
     elif request.method == 'GET':
-        form.username.data = current_user.username
-        form.email.data = current_user.email
-        form.car.data = current_user.car
-    image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
-    return render_template('account.html', title='Account',
-                           image_file=image_file, form=form)
+        return jsonify(username=current_user.username, email=current_user.email,
+                       car=current_user.car)
 
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
     if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
-    form = RequestResetForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        send_reset_email(user)
-        flash('An email has been sent with instructions to reset your password.', 'info')
-        return redirect(url_for('users.login'))
-    return render_template('reset_request.html', title='Reset Password', form=form)
+        return Response(status=301)
+    if request.method == 'POST':
+        user_json = request.get_json()
+        user = User.query.filter_by(email=user_json['email']).first()
+        if user is not None:
+            send_reset_email(user)
+            return Response(status=200)
+        else:
+            return Response(status=404)
 
 
 @users.route("/reset_password/<token>", methods=['GET', 'POST'])
 def reset_token(token):
     if current_user.is_authenticated:
-        return redirect(url_for('main.home'))
+        return Response(status=301)
     user = User.verify_reset_token(token)
     if user is None:
-        flash('That is an invalid or expired token', 'warning')
-        return redirect(url_for('users.reset_request'))
-    form = ResetPasswordForm()
-    if form.validate_on_submit():
-        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        return Response(status=404)
+
+    if request.method == 'POST':
+        user_json = request.get_json()
+        hashed_password = bcrypt.generate_password_hash(user_json['password']).decode('utf-8')
         user.password = hashed_password
         db.session.commit()
-        flash('Your password has been updated! You are now able to log in', 'success')
-        return redirect(url_for('users.login'))
-    return render_template('reset_token.html', title='Reset Password', form=form)    
+        return Response(status=200)
