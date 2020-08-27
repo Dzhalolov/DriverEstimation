@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <ImageView
-        android:id="@+id/iv_back"
+        android:id="@+id/imageGoBack"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="start"
@@ -13,7 +13,7 @@
         android:src="@mipmap/ic_arrow_back" />
 
     <FrameLayout
-        android:id="@+id/auth_container"
+        android:id="@+id/authContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -6,20 +6,20 @@ import android.content.SharedPreferences
 class Auth(context: Context) {
 
     companion object {
-        val USER_ID_KEY: String = "USER_ID_KEY"
+        val USER_EMAIL_KEY: String = "USER_EMAIL_KEY"
     }
 
     private val sharedPrefUserId: SharedPreferences =
-        context.getSharedPreferences(USER_ID_KEY, Context.MODE_PRIVATE)
+        context.getSharedPreferences(USER_EMAIL_KEY, Context.MODE_PRIVATE)
 
-    fun addUser(id: Long) {
-        sharedPrefUserId.edit().putLong(USER_ID_KEY, id).apply()
+    fun addUser(email: String) {
+        sharedPrefUserId.edit().putString(USER_EMAIL_KEY, email).apply()
     }
 
     fun isAuthed() =
-        sharedPrefUserId.getLong(USER_ID_KEY, 0L) != 0L
+        sharedPrefUserId.getString(USER_EMAIL_KEY, "") != ""
 
     fun deleteUser() {
-        sharedPrefUserId.edit().putLong(USER_ID_KEY, 0L).apply()
+        sharedPrefUserId.edit().putString(USER_EMAIL_KEY, "").apply()
     }
 }

@@ -23,7 +23,7 @@ class ProfileFragment : Fragment(R.layout.fr_profile) {
     private val TAG = "DEBUG_TAG_PROFILE"
 
     companion object {
-        var userId: Long = 0
+        var userEmail: String? = ""
 
         /*fun newInstance(userId: Long): ProfileFragment {
             val args = Bundle()
@@ -38,28 +38,28 @@ class ProfileFragment : Fragment(R.layout.fr_profile) {
         super.onActivityCreated(savedInstanceState)
 
         val sharedPreferences =
-            activity!!.getSharedPreferences(Auth.USER_ID_KEY, Context.MODE_PRIVATE)
-        userId = sharedPreferences.getLong(Auth.USER_ID_KEY, 0)
+            activity!!.getSharedPreferences(Auth.USER_EMAIL_KEY, Context.MODE_PRIVATE)
+        userEmail = sharedPreferences.getString(Auth.USER_EMAIL_KEY, "")
 
         sharedPreferencesHelper =
             UserController(activity!!)
 
-        btn_edit_profile.setOnClickListener(switchToEditProfileFragment())
-        btn_change_password.setOnClickListener(switchToChangePasswordFragment())
+        btnEditProfile.setOnClickListener(switchToEditProfileFragment())
+        btnChangePassword.setOnClickListener(switchToChangePasswordFragment())
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d(TAG, "onResume: $userId")
+        Log.d(TAG, "onResume: $userEmail")
 
-        user = sharedPreferencesHelper.getUser(userId)
+        user = userEmail?.let { sharedPreferencesHelper.getUser(it) }
 
         Log.d(TAG, "onResume: $user")
 
         //set data from user obj
-        et_name.setText(user!!.name)
-        et_login.setText(user!!.email)
-        et_car.setText(user!!.car)
+        etName.setText(user!!.name)
+        etLogin.setText(user!!.email)
+        etCar.setText(user!!.car)
 
         /* set profile photo
         * if user hadn't add photo set default photo */
@@ -68,7 +68,7 @@ class ProfileFragment : Fragment(R.layout.fr_profile) {
             .placeholder(R.mipmap.ic_profile_photo)
             .transform(CircleTransform())
             .fit()
-            .into(iv_photo)
+            .into(ivPhoto)
     }
 
     private fun switchToEditProfileFragment(): View.OnClickListener {

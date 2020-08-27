@@ -19,11 +19,11 @@ class ChangePasswordFragment : Fragment(R.layout.fr_change_password) {
         super.onActivityCreated(savedInstanceState)
 
         userController = UserController(activity!!)
-        user = userController.getUser(ProfileFragment.userId)
+        user = ProfileFragment.userEmail?.let { userController.getUser(it) }
 
-        btn_submit_password_change.setOnClickListener {
+        btnSubmitPasswordChange.setOnClickListener {
             if (isValidPassword()) {
-                user!!.password = et_new_password.text.toString()
+                user!!.password = etNewPassword.text.toString()
                 userController.addUser(user!!)
                 fragmentManager!!.popBackStack()
             }
@@ -32,9 +32,9 @@ class ChangePasswordFragment : Fragment(R.layout.fr_change_password) {
 
     @SuppressLint("ResourceAsColor")
     private fun isValidPassword(): Boolean {
-        val currPass = et_curr_password.text.toString()
-        val newPass = et_new_password.text.toString()
-        val newPassAgain = et_new_password_again.text.toString()
+        val currPass = etCurrPassword.text.toString()
+        val newPass = etNewPassword.text.toString()
+        val newPassAgain = etNewPasswordAgain.text.toString()
         return when {
             TextUtils.isEmpty(currPass) || TextUtils.isEmpty(newPass) || TextUtils.isEmpty(
                 newPassAgain
@@ -43,7 +43,7 @@ class ChangePasswordFragment : Fragment(R.layout.fr_change_password) {
                 false
             }
             currPass != user!!.password -> {
-                et_curr_password.setBackgroundColor(R.color.color_error_bg)
+                etCurrPassword.setBackgroundColor(R.color.color_error_bg)
                 showMsg(activity!!, "Wrong current password!")
                 false
             }
@@ -56,7 +56,7 @@ class ChangePasswordFragment : Fragment(R.layout.fr_change_password) {
                     return true
                 }
                 showMsg(activity!!, "Please, confirm your address")
-                et_new_password.setBackgroundColor(R.color.color_error_bg)
+                etNewPassword.setBackgroundColor(R.color.color_error_bg)
                 false
             }
         }

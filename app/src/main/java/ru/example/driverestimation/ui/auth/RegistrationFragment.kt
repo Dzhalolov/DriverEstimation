@@ -9,8 +9,6 @@ import ru.example.driverestimation.R
 import ru.example.driverestimation.model.User
 import ru.example.driverestimation.utils.UserController
 import ru.example.driverestimation.utils.showMsg
-import java.util.*
-import kotlin.math.abs
 
 class RegistrationFragment : Fragment(R.layout.fr_registration) {
 
@@ -25,29 +23,28 @@ class RegistrationFragment : Fragment(R.layout.fr_registration) {
         * if valid data:
         * add new user
         * close registration fragment*/
-        btn_registration_submit.setOnClickListener {
+        btnRegistrationSubmit.setOnClickListener {
             if (isValidData()) {
                 val user = User(
-                    (abs(Random().nextLong())),
-                    et_email.text.toString(),
-                    et_registration_name.text.toString(),
-                    et_registration_password.text.toString(),
-                    et_registration_car_name.text.toString(),
+                    etRegistrationEmail.text.toString(),
+                    etRegistrationName.text.toString(),
+                    etRegistrationPassword.text.toString(),
+                    etRegistrationCarName.text.toString(),
                     ""
                 )
                 userController.addUser(user)
                 fragmentManager?.popBackStack()
-                showMsg(activity!!, "Successful registration!")
+                showMsg(activity!!, "Now please confirm your email address!")
             }
         }
     }
 
     private fun isValidData(): Boolean {
-        val email = et_email.text.toString()
-        val name = et_registration_name.text.toString()
-        val password = et_registration_password.text.toString()
-        val passwordAgain = et_registration_password_again.text.toString()
-        val car = et_registration_car_name.text.toString()
+        val email = etRegistrationEmail.text.toString()
+        val name = etRegistrationName.text.toString()
+        val password = etRegistrationPassword.text.toString()
+        val passwordAgain = etRegistrationPasswordAgain.text.toString()
+        val car = etRegistrationCarName.text.toString()
 
         val isAllFieldsEmpty = TextUtils.isEmpty(email)
                 || TextUtils.isEmpty(name)

@@ -42,7 +42,7 @@ class UserController(context: Context) {
     fun addUser(user: User): Boolean {
         val users = users
         for (u in users) {
-            if (u.id == user.id) {
+            if (u.email.equals(user.email, true)) {
                 users.remove(u)
                 break
             }
@@ -58,10 +58,10 @@ class UserController(context: Context) {
         return true
     }
 
-    fun getUser(userId: Long): User? {
+    fun getUser(userEmail: String): User? {
         val users: List<User> = users
         for (u in users) {
-            if (u.id == userId) {
+            if (u.email.equals(userEmail, true)) {
                 return u
             }
         }
@@ -71,7 +71,7 @@ class UserController(context: Context) {
     fun login(userEmail: String): User? {
         val users: List<User> = users
         for (u in users) {
-            if (u.email == userEmail) {
+            if (u.email.equals(userEmail, true)) {
                 return u
             }
         }

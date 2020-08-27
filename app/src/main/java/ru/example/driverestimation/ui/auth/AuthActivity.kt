@@ -10,7 +10,7 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ac_auth)
 
-        iv_back.setOnClickListener {
+        imageGoBack.setOnClickListener {
             val fragmentManager =
                 supportFragmentManager
             if (fragmentManager.backStackEntryCount == 1) {
@@ -21,7 +21,7 @@ class AuthActivity : AppCompatActivity() {
         }
 
         supportFragmentManager.beginTransaction()
-            .replace(R.id.auth_container, AuthFragment())
+            .replace(R.id.authContainer, AuthFragment())
             .addToBackStack(AuthFragment::class.java.name)
             .commit()
     }

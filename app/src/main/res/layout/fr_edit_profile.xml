@@ -19,13 +19,13 @@
             style="@style/tv_title_style" />
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/iv_profile_photo"
+            android:id="@+id/ivProfilePhoto"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:background="@mipmap/ic_profile_photo" />
 
         <TextView
-            android:id="@+id/tv_change_photo"
+            android:id="@+id/tvChangePhoto"
             android:text="@string/change_photo"
             style="@style/tv_link_style" />
 
@@ -35,7 +35,7 @@
             android:text="@string/name" />
 
         <EditText
-            android:id="@+id/et_profile_name"
+            android:id="@+id/etProfileName"
             style="@style/et_edit_profile_style"
             tools:text="Daniel" />
 
@@ -45,13 +45,13 @@
             android:text="@string/car" />
 
         <AutoCompleteTextView
-            android:id="@+id/et_profile_car"
+            android:id="@+id/etProfileCar"
             style="@style/et_edit_profile_style"
             tools:ignore="LabelFor"
             tools:text="LADA Vesta" />
 
         <Button
-            android:id="@+id/btn_save_profile_changes"
+            android:id="@+id/btnSaveProfileChanges"
             android:text="@string/save_changes"
             style="@style/button_style" />
     </LinearLayout>

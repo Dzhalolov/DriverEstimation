@@ -1,7 +1,6 @@
 package ru.example.driverestimation.model
 
 data class User(
-    val id: Long,
     var email: String,
     var name: String,
     var password: String,

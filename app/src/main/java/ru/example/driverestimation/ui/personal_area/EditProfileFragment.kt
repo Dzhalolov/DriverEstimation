@@ -36,10 +36,10 @@ class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
         super.onActivityCreated(savedInstanceState)
         userController =
             UserController(activity!!)
-        user = userController.getUser(ProfileFragment.userId)
+        user = ProfileFragment.userEmail?.let { userController.getUser(it) }
 
-        et_profile_name.setText(user!!.name)
-        et_profile_car.setText(user!!.car)
+        etProfileName.setText(user!!.name)
+        etProfileCar.setText(user!!.car)
         setImage(Uri.parse(user!!.uri))
 
         /* on profile photo click listener
@@ -47,7 +47,7 @@ class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
         * - change photo (select from gallery)
         * - delete photo
         * */
-        iv_profile_photo.setOnClickListener {
+        ivProfilePhoto.setOnClickListener {
             val builder = AlertDialog.Builder(activity!!)
                 .setTitle("What do you want to do?")
                 .setPositiveButton("Change photo") { _: DialogInterface, _: Int
@@ -64,14 +64,14 @@ class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
         /*
         * one more way to change profile photo
         * */
-        tv_change_photo.setOnClickListener {
+        tvChangePhoto.setOnClickListener {
             selectPhotoFromGallery()
         }
-        btn_save_profile_changes.setOnClickListener(onBtnSaveClickListener())
+        btnSaveProfileChanges.setOnClickListener(onBtnSaveClickListener())
 
-        et_profile_car.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
+        etProfileCar.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
-                et_profile_car.showDropDown()
+                etProfileCar.showDropDown()
             }
         }
 
@@ -83,7 +83,7 @@ class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
             android.R.layout.simple_dropdown_item_1line,
             arrayOf("LADA Vesta", "LADA Priora", "LADA Kalina")
         )
-        et_profile_car.setAdapter<ArrayAdapter<String>>(availableCarsAdapter)
+        etProfileCar.setAdapter<ArrayAdapter<String>>(availableCarsAdapter)
     }
 
     /*
@@ -120,7 +120,7 @@ class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
             .load(Uri.parse(user!!.uri))
             .placeholder(R.mipmap.ic_profile_photo)
             .fit()
-            .into(iv_profile_photo)
+            .into(ivProfilePhoto)
     }
 
     private fun selectPhotoFromGallery() {
@@ -137,7 +137,7 @@ class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
             .load(uri)
             .placeholder(R.mipmap.ic_profile_photo)
             .transform(CircleTransform())
-            .into(iv_profile_photo)
+            .into(ivProfilePhoto)
     }
 
     private fun launchImageCrop(uri: Uri) {
@@ -153,8 +153,8 @@ class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
     private fun onBtnSaveClickListener(): View.OnClickListener {
         return View.OnClickListener {
             if (isValidInput) {
-                user!!.name = et_profile_name.text.toString()
-                user!!.car = et_profile_car.text.toString()
+                user!!.name = etProfileName.text.toString()
+                user!!.car = etProfileCar.text.toString()
                 Log.d(TAG, "onClick: " + user.toString())
                 userController.addUser(user!!)
                 fragmentManager!!.popBackStack()
@@ -165,8 +165,8 @@ class EditProfileFragment : Fragment(R.layout.fr_edit_profile) {
 
 
     private val isValidInput: Boolean
-        get() = if (TextUtils.isEmpty(et_profile_name.text.toString())
-            || TextUtils.isEmpty(et_profile_car.text.toString())
+        get() = if (TextUtils.isEmpty(etProfileName.text.toString())
+            || TextUtils.isEmpty(etProfileCar.text.toString())
         ) {
             Toast.makeText(activity, "Empty fields!", Toast.LENGTH_SHORT).show()
             false

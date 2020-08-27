@@ -5,28 +5,29 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/mainToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/white"
+        android:elevation="4dp">
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="start"
-            android:layout_margin="15dp"
-            android:src="@mipmap/ic_arrow_back" />
-
-        <Button
-            android:id="@+id/btn_logout"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="20dp"
-            android:text="@string/log_out"
-            android:textSize="20sp" />
-    </RelativeLayout>
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageGoBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:src="@mipmap/ic_arrow_back" />
+
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
 
     <FrameLayout
         android:id="@+id/container"
